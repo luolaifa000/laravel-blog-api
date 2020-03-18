@@ -12,3 +12,9 @@ yarn-error.log
 
 .DS_Store
 */.DS_Store
+/.idea/.gitignore
+/.idea/laravel-blog-api.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml

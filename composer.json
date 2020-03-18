@@ -19,7 +19,7 @@
         "overtrue/laravel-socialite": "~2.0",
         "predis/predis": "^1.1",
         "qoraiche/laravel-mail-editor": "^1.1",
-        "tymon/jwt-auth": "1.0.0-rc.4.1"
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

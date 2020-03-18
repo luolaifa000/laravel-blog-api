@@ -9,7 +9,7 @@ class WebinfoController extends Controller
 {
     // 添加和修改信息
     public function set(Request $request){
-        $webinfo = Webinfo::first(); 
+        $webinfo = Webinfo::first();
         if ($webinfo)
             $webinfo->update($request->all());
         else

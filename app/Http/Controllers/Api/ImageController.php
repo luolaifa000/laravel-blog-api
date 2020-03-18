@@ -11,13 +11,13 @@ class ImageController extends Controller
 {
     // 上传图片
     public function upload(ImageRequest $request){
-        $imageUrl = Storage::disk('upyun')->put('/', $request->file('image'));
-        return $this->success(['url'=>$imageUrl]);
+        $imageUrl = Storage::disk('uploads')->put('/', $request->file('image'));
+        return $this->success(['url'=> $imageUrl]);
     }
 
     // 删除图片
     public function delete(ImageRequest $request){
-        $status = Storage::disk('upyun')->delete($request->image);
+        $status = Storage::disk('uploads')->delete($request->image);
         if($status){
             return $this->message('图片删除成功！');
         }
