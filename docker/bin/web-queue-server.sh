@@ -6,6 +6,7 @@ source /etc/profile
 
 cd /home/user00/web
 cp /home/user00/web/.env.example /home/user00/web/.env
+chmod -R 777 /home/user00/web/storage
 #/usr/local/bin/composer install
 #/usr/local/php/bin/php artisan key:generate
 #/usr/local/php/bin/php artisan jwt:secret
