@@ -9,6 +9,7 @@ cp /home/user00/web/.env.example /home/user00/web/.env
 /usr/local/bin/composer install
 /usr/local/php/bin/php artisan key:generate
 /usr/local/php/bin/php artisan jwt:secret
+/usr/local/php/bin/php artisan config:clear
 /usr/local/php/bin/php artisan migrate
 /usr/local/php/bin/php artisan db:seed
 
