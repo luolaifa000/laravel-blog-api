@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/yumancang/php_nginx_redis_base
+FROM hkccr.ccs.tencentyun.com/yumancang/php_nginx_redis_base
 
 MAINTAINER laifaluo@126.com
 
