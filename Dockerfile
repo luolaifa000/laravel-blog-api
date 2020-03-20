@@ -7,6 +7,7 @@ WORKDIR /home/user00/
 ADD ./ /home/user00/web/
 ADD ./docker/nginx.conf /etc/nginx/
 ADD ./docker/blog-backend.conf /etc/nginx/conf.d/
+ADD ./docker/redis.conf /etc/redis-5.0.3/
 ADD ./docker/bin/*.sh ./
 
 RUN chown -R user00:user00 ./

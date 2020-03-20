@@ -5,6 +5,7 @@ echo "run web-queue-server.sh"
 source /etc/profile
 
 cd /home/user00/web
+redis-server /etc/redis-5.0.3/redis.conf
 cp /home/user00/web/.env.example /home/user00/web/.env
 chmod -R 777 /home/user00/web/storage
 #/usr/local/bin/composer install

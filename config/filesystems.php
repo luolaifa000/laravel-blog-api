@@ -75,7 +75,7 @@ return [
 
         'uploads' => [
             'driver' => 'local',
-            'root' => public_path('img'),
+            'root' => public_path('img_backend'),
         ],
     ],
 
