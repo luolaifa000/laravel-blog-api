@@ -43,7 +43,7 @@ Route::namespace('Api')->prefix('v2')->group(function () {
     });
     Route::post('/user/send_email','CommonController@send_email')->name('users.send_email');
     Route::post('/user/check_captcha','CommonController@check_captcha')->name('users.check_captcha');
-    
+
     Route::middleware(['api.refresh', 'adminRole'])->group(function () {
         Route::post('/user/list','UserController@list')->name('users.list');
     });
@@ -52,6 +52,7 @@ Route::namespace('Api')->prefix('v2')->group(function () {
     Route::middleware(['api.refresh', 'adminRole'])->group(function () {
         Route::post('/image/upload', 'ImageController@upload')->name('image.upload');
         Route::post('/image/delete', 'ImageController@delete')->name('image.delete');
+        Route::post('/image/titleDelete', 'ImageController@titleDelete')->name('image.titleDelete');
     });
 
     // 添加文章模块
