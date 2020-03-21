@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::any('wechat', "Api\WechatController@indexAction");
 
 // 版本号
 Route::get('/version', function() {

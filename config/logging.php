@@ -89,6 +89,11 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'zip' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/zip/zip.log')
+        ],
     ],
 
 ];
