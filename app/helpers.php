@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Support\Facades\Log;
 
 if (!function_exists('pre')) {
     function pre()
@@ -28,3 +29,10 @@ if (!function_exists('prend')) {
     }
 }
 
+
+if (!function_exists('log_zip')) {
+    function log_zip($str)
+    {
+        Log::channel('zip')->info($str);
+    }
+}
