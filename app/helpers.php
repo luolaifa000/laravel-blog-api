@@ -8,7 +8,7 @@ if (!function_exists('pre')) {
         $data = func_get_args();
         foreach ($data as $key => $val) {
             echo '<pre>';
-            print_r($val);
+            var_dump($val);
             echo '</pre>';
         }
 
@@ -21,7 +21,7 @@ if (!function_exists('prend')) {
         $data = func_get_args();
         foreach ($data as $key => $val) {
             echo '<pre>';
-            print_r($val);
+            var_dump($val);
             echo '</pre>';
         }
         exit();
