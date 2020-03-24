@@ -76,23 +76,21 @@ XML;
 
     public function oauthCallAction(Request $request)
     {
+        log_zip("11111111111111111111111111111");
         $app = Factory::officialAccount(config('wechat'));
         $oauth = $app->oauth;
 
         // 获取 OAuth 授权结果用户信息
         $user = $oauth->user();
+        log_zip(json_encode($user->getOriginal()));
         prend($user);
-        $_SESSION['wechat_user'] = $user->toArray();
-
-        $targetUrl = empty($_SESSION['target_url']) ? '/' : $_SESSION['target_url'];
-
-        header('location:'. $targetUrl); // 跳转到 user/profile
 
     }
 
 
     public function oauthAction(Request $request)
     {
+        log_zip("22222222222222222222222222222");
         $app = Factory::officialAccount(config('wechat'));
         $response = $app->oauth->scopes(['snsapi_userinfo'])
             ->setRequest($request)
