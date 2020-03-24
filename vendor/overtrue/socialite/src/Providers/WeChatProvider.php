@@ -94,11 +94,12 @@ class WeChatProvider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessToken($code)
     {
+        pre($code);
         $response = $this->getHttpClient()->get($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
             'query' => $this->getTokenFields($code),
         ]);
-
+        prend($response->getBody());
         return $this->parseAccessToken($response->getBody());
     }
 
