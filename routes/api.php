@@ -17,8 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::any('yfsail/wechat', "Api\WechatController@yfsailAction");
+Route::any('yfsail/wechat', "Api\WechatController@blogAction");
 Route::any('blog/wechat', "Api\WechatController@blogAction");
+Route::any('yfsail/wechat_oauth', "Api\WechatController@oauthAction");
+Route::any('yfsail/wechat_oauth_callback', "Api\WechatController@oauthCallAction");
 
 // 版本号
 Route::get('/version', function() {

@@ -74,6 +74,33 @@ XML;
 
     }
 
+    public function oauthCallAction(Request $request)
+    {
+        $app = Factory::officialAccount(config('wechat'));
+        $oauth = $app->oauth;
+
+        // 获取 OAuth 授权结果用户信息
+        $user = $oauth->user();
+        prend($user);
+        $_SESSION['wechat_user'] = $user->toArray();
+
+        $targetUrl = empty($_SESSION['target_url']) ? '/' : $_SESSION['target_url'];
+
+        header('location:'. $targetUrl); // 跳转到 user/profile
+
+    }
+
+
+    public function oauthAction(Request $request)
+    {
+        $app = Factory::officialAccount(config('wechat'));
+        $response = $app->oauth->scopes(['snsapi_userinfo'])
+            ->setRequest($request)
+            ->redirect();
+        return $response;
+
+    }
+
     public function blogAction(Request $request)
     {
         $postStr = file_get_contents("php://input", 'r');
@@ -83,16 +110,7 @@ XML;
         $fullUrl = $request->fullUrl();
         Log::channel('zip')->info("fullUrl " . $fullUrl);
 
-        $config = [
-            'app_id' => 'wx3cf0f39249eb0xxx',
-            'secret' => 'f1c242f4f28f735d4687abb469072xxx',
-            'token' => 'TestToken',
-            'response_type' => 'array',
-            //...
-        ];
-
-        $app = Factory::officialAccount($config);
-
+        $app = Factory::officialAccount(config('wechat'));
         $app->server->push(function ($message) {
             prend($message);
             return "您好！欢迎关注我!";
