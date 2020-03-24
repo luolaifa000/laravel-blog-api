@@ -443,6 +443,7 @@ abstract class AbstractProvider implements ProviderInterface
         if (!is_array($body)) {
             $body = json_decode($body, true);
         }
+        log_zip($body);
 
         if (empty($body['access_token'])) {
             throw new AuthorizeFailedException('Authorize Failed: '.json_encode($body, JSON_UNESCAPED_UNICODE), $body);
