@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\GoodsCancelEvent;
 use App\Models\Ad;
+use App\Models\User;
 use EasyWeChat\Factory;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
@@ -45,32 +46,6 @@ class WechatController extends Controller
             echo $request->echostr;
             exit();
         }
-        /*$xmlstr = <<<XML
-            <xml>
-            <ToUserName><![CDATA[gh_0b101caa73f1]]></ToUserName>
-            <FromUserName><![CDATA[oaw1Ww-8pJlD9IT_xxrr0Oj5oGjY]]></FromUserName>
-            <CreateTime>1584800564</CreateTime>
-            <MsgType><![CDATA[text]]></MsgType>
-            <Content><![CDATA[125]]></Content>
-            <MsgId>22688890431965327</MsgId>
-            </xml>
-XML;
-        $xml = simplexml_load_string($xmlstr);
-
-        foreach($xml->children() as $child)
-        {
-            dd($child->__toString());
-            echo $child->getName() . ": " . $child . "<br>";
-        }
-        dd($xml->ToUserName[0]);
-        foreach ($xml->children() as $child)
-        {
-            echo $child->getName() . "\n";
-        }
-        dd($xml->children()->getName('ToUserName'));
-        $movies = new \SimpleXMLElement($xmlstr);
-        dd($movies->ToUserName);*/
-        echo 123;exit();
 
     }
 
@@ -107,6 +82,73 @@ XML;
         Log::channel('zip')->info("post " . json_encode($post));
         $fullUrl = $request->fullUrl();
         Log::channel('zip')->info("fullUrl " . $fullUrl);
+
+        $app = Factory::officialAccount(config('wechat'));
+
+
+        $res = $app->server->push(function ($message) {
+
+            switch ($message['MsgType']) {
+                case 'event':
+                    //扫描带参数二维码事件
+                    //扫描带参数二维码事件 , 用户未关注时，扫描进行关注后的事件推送
+                    if ($message['Event'] == 'subscribe' && isset($message['EventKey'])) {
+                        $event_key = str_replace('qrscene_', '',$message['EventKey']);
+                        $user = User::where('event_key', $event_key)->first();
+                        if (empty($user)) {
+                            return "异常";
+                        }
+                        $user->open_id = $message['FromUserName'];
+                        $user->save();
+                        return "关注成功";
+
+                    }
+                    //扫描带参数二维码事件, 用户已关注时,扫描的事件推送
+                    if ($message['Event'] == 'SCAN' && isset($message['EventKey'])) {
+                        $event_key = $message['EventKey'];
+                        $user = User::where('event_key', $event_key)->first();
+                        if (empty($user)) {
+                            return "异常";
+                        }
+                        $user->open_id = $message['FromUserName'];
+                        $user->save();
+                        return "你已经关注";
+                    }
+                    break;
+                case 'text':
+                    return '收到文字消息';
+                    break;
+                case 'image':
+                    return '收到图片消息';
+                    break;
+                case 'voice':
+                    return '收到语音消息';
+                    break;
+                case 'video':
+                    return '收到视频消息';
+                    break;
+                case 'location':
+                    return '收到坐标消息';
+                    break;
+                case 'link':
+                    return '收到链接消息';
+                    break;
+                case 'file':
+                    return '收到文件消息';
+                // ... 其它消息
+                default:
+                    return '收到其它消息';
+                    break;
+            }
+        });
+        $response = $app->server->serve();
+
+        log_zip(json_encode($response->getContent()));
+        return $response;
+        prend($res);
+        $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
+
+        dd($result);
 
         $app = Factory::officialAccount(config('wechat'));
         $app->server->push(function ($message) {
