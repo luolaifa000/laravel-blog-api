@@ -49,6 +49,23 @@ class WechatController extends Controller
 
     }
 
+
+    public function sendTemplateAction(Request $request)
+    {
+        $app = Factory::officialAccount(config('wechat'));
+        $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
+
+        dd($result);
+        $res = $app->template_message->send([
+            'touser' => 'oaw1Ww-8pJlD9IT_xxrr0Oj5oGjY',
+            'template_id' => 'DDYBhyuPbRwQvUT11XRggPTPgCk3gHrnW7IwOUhJG2I',
+            'url' => 'http://yumancang.club',
+            'data' => [
+            ],
+        ]);
+        prend($res);
+    }
+
     public function oauthCallAction(Request $request)
     {
         log_zip("11111111111111111111111111111");
