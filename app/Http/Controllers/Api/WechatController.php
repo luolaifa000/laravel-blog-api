@@ -57,7 +57,23 @@ class WechatController extends Controller
 
         $client = new Client();
 
-        //$response = $client->request('GET','https://www.baidu.com');
+        $client = new \GuzzleHttp\Client([
+            'curl' => [
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => 1,
+            ]
+        ]);
+
+        $proxy = [
+            'http' => config('app.fileserver_proxy') . ':' . config('app.fileserver_port'), // Use this proxy with "http"
+            'https' => config('app.fileserver_proxy') . ':' . config('app.fileserver_port'), // Use this proxy with "https",
+            'no' => ''
+
+        ];
+
+        $response = $client->request('GET','https://www.baidu.com', [
+            'proxy' => $proxy
+                ]);
 
 
         $promise = $client->requestAsync('GET', 'https://www.baidu.com');
