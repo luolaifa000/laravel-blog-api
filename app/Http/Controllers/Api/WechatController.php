@@ -6,11 +6,14 @@ use App\Events\GoodsCancelEvent;
 use App\Models\Ad;
 use App\Models\User;
 use EasyWeChat\Factory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdRequest;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 
 class WechatController extends Controller
 {
@@ -49,9 +52,34 @@ class WechatController extends Controller
 
     }
 
+    public function testGuzzlp(Request $request)
+    {
+
+        $client = new Client();
+
+        //$response = $client->request('GET','https://www.baidu.com');
+
+
+        $promise = $client->requestAsync('GET', 'https://www.baidu.com');
+        $promise = $promise->then(
+            function (ResponseInterface $res) {
+                dd($res->getBody());
+                echo $res->getStatusCode() . "\n";
+            },
+            function (RequestException $e) {
+                dd($e);
+                echo $e->getMessage() . "\n";
+                echo $e->getRequest()->getMethod();
+            }
+        )->wait();
+        dd($promise);
+
+    }
 
     public function sendTemplateAction(Request $request)
     {
+        $this->testGuzzlp($request);
+        exit();
         $app = Factory::officialAccount(config('wechat'));
         $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
 
